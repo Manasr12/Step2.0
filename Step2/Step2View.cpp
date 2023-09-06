@@ -30,6 +30,7 @@ BEGIN_MESSAGE_MAP(CStep2View, CView)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CView::OnFilePrintPreview)
 	
 	ON_COMMAND(ID_STEPSTUFF_PLAY, &CStep2View::OnStepstuffPlay)
+	ON_WM_TIMER()
 END_MESSAGE_MAP()
 
 // CStep2View construction/destruction
@@ -41,7 +42,10 @@ CStep2View::CStep2View() noexcept
 	BITMAP map;
 	m_splash.GetBitmap(&map);
 	m_splashwid = map.bmWidth;
-	m_splashhit = map.bmHeight;// TODO: add construction code here
+	m_splashhit = map.bmHeight;
+	
+	m_firstdraw = true;
+	m_timer = 0;// TODO: add construction code here
 
 }
 
@@ -72,6 +76,11 @@ void CStep2View::OnDraw(CDC* pDC)
 	bmpDC.CreateCompatibleDC(pDC);
 	bmpDC.SelectObject(&m_splash);
 	pDC->BitBlt(0, 0, m_splashwid, m_splashhit, &bmpDC, 0, 0, SRCCOPY);
+	if (m_firstdraw)
+	{
+		m_firstdraw = false;
+		OnFirstDraw();
+	}
 }
 
 
@@ -127,4 +136,13 @@ void CStep2View::OnPlaysmithPlaysmith()
 void CStep2View::OnStepstuffPlay()
 {
 	PlaySound(MAKEINTRESOURCE(IDR_HEARTHAT), AfxGetInstanceHandle(), SND_RESOURCE | SND_ASYNC);// TODO: Add your command handler code here
+}
+
+
+void CStep2View::OnTimer(UINT_PTR nIDEvent)
+{
+	PlaySound(MAKEINTRESOURCE(IDR_HEARTHAT), AfxGetInstanceHandle(), SND_RESOURCE | SND_ASYNC);// TODO: Add your message handler code here and/or call default
+	KillTimer(m_timer);
+	m_timer = 0;
+	CView::OnTimer(nIDEvent);
 }
