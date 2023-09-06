@@ -40,6 +40,13 @@ protected:
 // Generated message map functions
 protected:
 	DECLARE_MESSAGE_MAP()
+private:
+	CBitmap m_splash;
+	int m_splashwid;
+	int m_splashhit;
+public:
+	afx_msg void OnPlaysmithPlaysmith();
+	afx_msg void OnStepstuffPlay();
 };
 
 #ifndef _DEBUG  // debug version in Step2View.cpp

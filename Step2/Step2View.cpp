@@ -3,6 +3,7 @@
 //
 
 #include "pch.h"
+
 #include "framework.h"
 // SHARED_HANDLERS can be defined in an ATL project implementing preview, thumbnail
 // and search filter handlers and allows sharing of document code with that project.
@@ -12,7 +13,7 @@
 
 #include "Step2Doc.h"
 #include "Step2View.h"
-
+#include "mmsystem.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -27,13 +28,20 @@ BEGIN_MESSAGE_MAP(CStep2View, CView)
 	ON_COMMAND(ID_FILE_PRINT, &CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CView::OnFilePrintPreview)
+	
+	ON_COMMAND(ID_STEPSTUFF_PLAY, &CStep2View::OnStepstuffPlay)
 END_MESSAGE_MAP()
 
 // CStep2View construction/destruction
 
 CStep2View::CStep2View() noexcept
 {
-	// TODO: add construction code here
+	m_splash.LoadBitmap(IDB_SPLASH);
+
+	BITMAP map;
+	m_splash.GetBitmap(&map);
+	m_splashwid = map.bmWidth;
+	m_splashhit = map.bmHeight;// TODO: add construction code here
 
 }
 
@@ -51,14 +59,19 @@ BOOL CStep2View::PreCreateWindow(CREATESTRUCT& cs)
 
 // CStep2View drawing
 
-void CStep2View::OnDraw(CDC* /*pDC*/)
+void CStep2View::OnDraw(CDC* pDC)
 {
 	CStep2Doc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
 
-	// TODO: add draw code for native data here
+	CPaintDC dc(this);
+	CDC bmpDC;
+
+	bmpDC.CreateCompatibleDC(pDC);
+	bmpDC.SelectObject(&m_splash);
+	pDC->BitBlt(0, 0, m_splashwid, m_splashhit, &bmpDC, 0, 0, SRCCOPY);
 }
 
 
@@ -103,3 +116,15 @@ CStep2Doc* CStep2View::GetDocument() const // non-debug version is inline
 
 
 // CStep2View message handlers
+
+
+void CStep2View::OnPlaysmithPlaysmith()
+{
+	
+}
+
+
+void CStep2View::OnStepstuffPlay()
+{
+	PlaySound(MAKEINTRESOURCE(IDR_HEARTHAT), AfxGetInstanceHandle(), SND_RESOURCE | SND_ASYNC);// TODO: Add your command handler code here
+}
