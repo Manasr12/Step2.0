@@ -49,6 +49,7 @@ CStep2View::CStep2View() noexcept
 	
 	m_firstdraw = true;
 	m_timer = 0;// TODO: add construction code here
+	m_state = Start;      // our initial state
 
 }
 
@@ -75,14 +76,24 @@ void CStep2View::OnDraw(CDC* pDC)
 
 	CPaintDC dc(this);
 	CDC bmpDC;
-
-	bmpDC.CreateCompatibleDC(pDC);
-	bmpDC.SelectObject(&m_splash);
-	pDC->BitBlt(0, 0, m_splashwid, m_splashhit, &bmpDC, 0, 0, SRCCOPY);
-	if (m_firstdraw)
+	switch (m_state)
 	{
-		m_firstdraw = false;
-		OnFirstDraw();
+	case Smith:
+	case HearThat:
+		bmpDC.CreateCompatibleDC(pDC);
+		bmpDC.SelectObject(&m_smith);
+		pDC->BitBlt(0, 0, 640, 480, &bmpDC, 0, 0, SRCCOPY);
+		break;
+
+	case Chill:
+		bmpDC.CreateCompatibleDC(pDC);
+		bmpDC.SelectObject(&m_chill);
+		pDC->BitBlt(0, 0, 640, 480, &bmpDC, 0, 0, SRCCOPY);
+		break;
+
+	default:
+		// Display nothing
+		break;
 	}
 }
 
@@ -144,12 +155,62 @@ void CStep2View::OnStepstuffPlay()
 
 void CStep2View::OnTimer(UINT_PTR nIDEvent)
 {
-	PlaySound(MAKEINTRESOURCE(IDR_HEARTHAT), AfxGetInstanceHandle(), SND_RESOURCE | SND_ASYNC);// TODO: Add your message handler code here and/or call default
-	KillTimer(m_timer);
-	m_timer = 0;
-	CView::OnTimer(nIDEvent);
+	// Kill any existing timer
+	if (m_timer)
+	{
+		KillTimer(m_timer);
+		m_timer = 0;
+	}
+
+	// Force redraw whenever the timer fires
+	Invalidate();
+
+	// This will keep track of the relative time
+	// to the next state.
+	DWORD nexteventtime;
+
+	switch (m_state)
+	{
+	case Start:
+		// If we are in the state state, just move directly
+		// to the Smith state
+		m_state = Smith;
+		nexteventtime = 2000;
+		break;
+
+	case Smith:
+		// The Smith state is ending, we are changing to the HearThat state
+		m_state = HearThat;
+
+		// What we do at the end of state Smith, entering state HearThat
+		PlaySound(MAKEINTRESOURCE(IDR_HEARTHAT), AfxGetInstanceHandle(), SND_RESOURCE | SND_ASYNC);
+
+		nexteventtime = 8000;
+		break;
+
+	case HearThat:
+		// What we at the end of state HearThat, entering state Chill
+		m_state = Chill;
+		nexteventtime = 12000;
+		break;
+
+	case Chill:
+		m_state = Done;
+		break;
+	}
+
+	// Only reset the timer if we are not done
+	if (m_state != Done)
+	{
+		DWORD currenttime = timeGetTime();
+		DWORD nexttime = m_starttime + nexteventtime;
+		DWORD tillnext = nexttime > currenttime ? nexttime - currenttime : 0;
+
+		m_timer = SetTimer(1, tillnext, NULL);
+	}
 }
 void CStep2View::OnFirstDraw()
 {
-	m_timer = SetTimer(1, 2000, NULL);
+	m_starttime = timeGetTime();
+	OnTimer(1);
 }
