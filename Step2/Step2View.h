@@ -46,14 +46,14 @@ private:
 	int m_splashhit;
 	UINT_PTR m_timer;
 	bool m_firstdraw;
-	void CStep2View::OnFirstDraw()
-	{
-		m_timer = SetTimer(1, 2000, NULL);
-	}
+	
+	CBitmap m_smith;
+	CBitmap m_chill;
 public:
 	afx_msg void OnPlaysmithPlaysmith();
 	afx_msg void OnStepstuffPlay();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	void OnFirstDraw();
 };
 
 #ifndef _DEBUG  // debug version in Step2View.cpp

@@ -217,6 +217,8 @@
     <None Include="res\Step2.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="media\chill.bmp" />
+    <Image Include="media\smith.bmp" />
     <Image Include="media\splash.bmp" />
     <Image Include="res\Step2.ico" />
     <Image Include="res\Step2Doc.ico" />

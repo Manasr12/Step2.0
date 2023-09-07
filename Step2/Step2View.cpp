@@ -146,3 +146,7 @@ void CStep2View::OnTimer(UINT_PTR nIDEvent)
 	m_timer = 0;
 	CView::OnTimer(nIDEvent);
 }
+void CStep2View::OnFirstDraw()
+{
+	m_timer = SetTimer(1, 2000, NULL);
+}
