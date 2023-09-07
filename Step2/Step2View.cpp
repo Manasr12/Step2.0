@@ -40,10 +40,12 @@ CStep2View::CStep2View() noexcept
 	m_splash.LoadBitmap(IDB_SPLASH);
 	m_smith.LoadBitmap(IDB_SMITH);
 	m_chill.LoadBitmap(IDB_CHILL);
+	m_auditorium.LoadBitmap(IDB_AUDITORIUM);
 	BITMAP map;
 	m_splash.GetBitmap(&map);
 	m_smith.GetBitmap(&map);
 	m_chill.GetBitmap(&map);
+	m_auditorium.GetBitmap(&map);
 	m_splashwid = map.bmWidth;
 	m_splashhit = map.bmHeight;
 	
@@ -69,6 +71,11 @@ BOOL CStep2View::PreCreateWindow(CREATESTRUCT& cs)
 
 void CStep2View::OnDraw(CDC* pDC)
 {
+	if (m_firstdraw) 
+	{
+		m_firstdraw = false;
+		OnFirstDraw();
+	}
 	CStep2Doc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
@@ -76,20 +83,25 @@ void CStep2View::OnDraw(CDC* pDC)
 
 	CPaintDC dc(this);
 	CDC bmpDC;
+	
 	switch (m_state)
 	{
-	case Smith:
-	case HearThat:
-		bmpDC.CreateCompatibleDC(pDC);
-		bmpDC.SelectObject(&m_smith);
-		pDC->BitBlt(0, 0, 640, 480, &bmpDC, 0, 0, SRCCOPY);
+	case Start:
+	case Applause:
+
+		break;
+	case MyName:
+		
 		break;
 
-	case Chill:
+
+	case Auditorium:
+		pDC->MoveTo(0, 0);
+		pDC->LineTo(100, 150);
 		bmpDC.CreateCompatibleDC(pDC);
-		bmpDC.SelectObject(&m_chill);
+		bmpDC.SelectObject(&m_auditorium);
 		pDC->BitBlt(0, 0, 640, 480, &bmpDC, 0, 0, SRCCOPY);
-		break;
+		
 
 	default:
 		// Display nothing
@@ -151,6 +163,11 @@ void CStep2View::OnStepstuffPlay()
 {
 	PlaySound(MAKEINTRESOURCE(IDR_HEARTHAT), AfxGetInstanceHandle(), SND_RESOURCE | SND_ASYNC);// TODO: Add your command handler code here
 }
+void CStep2View::OnFirstDraw()
+{
+	m_starttime = timeGetTime();
+	OnTimer(1);
+}
 
 
 void CStep2View::OnTimer(UINT_PTR nIDEvent)
@@ -167,37 +184,40 @@ void CStep2View::OnTimer(UINT_PTR nIDEvent)
 
 	// This will keep track of the relative time
 	// to the next state.
-	DWORD nexteventtime;
+	DWORD nexteventtime = 0;
 
 	switch (m_state)
 	{
 	case Start:
 		// If we are in the state state, just move directly
 		// to the Smith state
-		m_state = Smith;
-		nexteventtime = 2000;
+	
+		
+		m_state = Applause;
+		nexteventtime = 5000;
 		break;
 
-	case Smith:
+	case Applause:
 		// The Smith state is ending, we are changing to the HearThat state
-		m_state = HearThat;
+		PlaySound(MAKEINTRESOURCE(IDR_HEARTHAT), AfxGetInstanceHandle(), SND_RESOURCE | SND_ASYNC);
+		m_state = MyName;
 
 		// What we do at the end of state Smith, entering state HearThat
-		PlaySound(MAKEINTRESOURCE(IDR_HEARTHAT), AfxGetInstanceHandle(), SND_RESOURCE | SND_ASYNC);
-
+		
 		nexteventtime = 8000;
 		break;
-
-	case HearThat:
-		// What we at the end of state HearThat, entering state Chill
-		m_state = Chill;
+	case MyName:
+		m_state = Auditorium;
 		nexteventtime = 12000;
 		break;
-
-	case Chill:
+	case Auditorium:
 		m_state = Done;
 		break;
+
+	case Done:
+		break;
 	}
+	
 
 	// Only reset the timer if we are not done
 	if (m_state != Done)
@@ -208,9 +228,4 @@ void CStep2View::OnTimer(UINT_PTR nIDEvent)
 
 		m_timer = SetTimer(1, tillnext, NULL);
 	}
-}
-void CStep2View::OnFirstDraw()
-{
-	m_starttime = timeGetTime();
-	OnTimer(1);
 }

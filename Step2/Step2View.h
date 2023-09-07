@@ -49,9 +49,11 @@ private:
 	
 	CBitmap m_smith;
 	CBitmap m_chill;
-	enum States { Start, Smith, HearThat, Chill, Done };
+	CBitmap m_auditorium;
+	enum States { Start, Applause, MyName, Auditorium, Done };
 	States m_state;
 	DWORD m_starttime;
+	
 	
 public:
 

@@ -217,6 +217,8 @@
     <None Include="res\Step2.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="media\Auditorium.bmp" />
+    <Image Include="media\bitmap1.bmp" />
     <Image Include="media\chill.bmp" />
     <Image Include="media\smith.bmp" />
     <Image Include="media\splash.bmp" />
@@ -225,6 +227,8 @@
     <Image Include="res\Toolbar.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <Media Include="media\applause_y.wav" />
+    <Media Include="media\bicycle_bell.wav" />
     <Media Include="media\hearthat.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
