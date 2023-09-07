@@ -38,9 +38,12 @@ END_MESSAGE_MAP()
 CStep2View::CStep2View() noexcept
 {
 	m_splash.LoadBitmap(IDB_SPLASH);
-
+	m_smith.LoadBitmap(IDB_SMITH);
+	m_chill.LoadBitmap(IDB_CHILL);
 	BITMAP map;
 	m_splash.GetBitmap(&map);
+	m_smith.GetBitmap(&map);
+	m_chill.GetBitmap(&map);
 	m_splashwid = map.bmWidth;
 	m_splashhit = map.bmHeight;
 	

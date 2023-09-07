@@ -49,6 +49,8 @@ private:
 	
 	CBitmap m_smith;
 	CBitmap m_chill;
+	enum States { Start, Smith, HearThat, Chill, Done };
+	States m_state;
 public:
 	afx_msg void OnPlaysmithPlaysmith();
 	afx_msg void OnStepstuffPlay();
