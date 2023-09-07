@@ -98,9 +98,23 @@ void CStep2View::OnDraw(CDC* pDC)
 	case Auditorium:
 		pDC->MoveTo(0, 0);
 		pDC->LineTo(100, 150);
+		pDC->TextOut(200, 140, L"Mannan");
+		break;
+		
+	case Caption:
 		bmpDC.CreateCompatibleDC(pDC);
 		bmpDC.SelectObject(&m_auditorium);
 		pDC->BitBlt(0, 0, 640, 480, &bmpDC, 0, 0, SRCCOPY);
+		break;
+	case Bicycle:
+		bmpDC.CreateCompatibleDC(pDC);
+		bmpDC.SelectObject(&m_auditorium);
+		pDC->BitBlt(0, 0, 640, 480, &bmpDC, 0, 0, SRCCOPY);
+		pDC->TextOut(200, 140, L"Mannan");
+		break;
+
+
+
 		
 
 	default:
@@ -199,7 +213,7 @@ void CStep2View::OnTimer(UINT_PTR nIDEvent)
 
 	case Applause:
 		// The Smith state is ending, we are changing to the HearThat state
-		PlaySound(MAKEINTRESOURCE(IDR_HEARTHAT), AfxGetInstanceHandle(), SND_RESOURCE | SND_ASYNC);
+		PlaySound(MAKEINTRESOURCE(IDR_APPLAUSE), AfxGetInstanceHandle(), SND_RESOURCE | SND_ASYNC);
 		m_state = MyName;
 
 		// What we do at the end of state Smith, entering state HearThat
@@ -211,8 +225,20 @@ void CStep2View::OnTimer(UINT_PTR nIDEvent)
 		nexteventtime = 12000;
 		break;
 	case Auditorium:
-		m_state = Done;
+		m_state = Caption;
+		nexteventtime = 15000;
 		break;
+	case Caption:
+		m_state = Bicycle;
+		nexteventtime = 28000;
+		PlaySound(MAKEINTRESOURCE(IDR_BICYCLE), AfxGetInstanceHandle(), SND_RESOURCE | SND_ASYNC);
+		break;
+	case Bicycle:
+		m_state = Done;
+		
+		break;
+
+
 
 	case Done:
 		break;
