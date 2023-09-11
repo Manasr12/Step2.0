@@ -46,6 +46,9 @@ private:
 	int m_splashhit;
 	UINT_PTR m_timer;
 	bool m_firstdraw;
+	int x1 = 100;   
+	int y1 = 100;   
+	
 	
 	CBitmap m_smith;
 	CBitmap m_chill;

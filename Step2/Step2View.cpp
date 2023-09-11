@@ -96,9 +96,18 @@ void CStep2View::OnDraw(CDC* pDC)
 
 
 	case Auditorium:
-		pDC->MoveTo(0, 0);
+		// Define the coordinates for the square
+		
+		
+		// Draw the square using four lines
+		pDC->MoveTo(x1, y1);
+		pDC->LineTo(250, 100);              // Top side
+		pDC->LineTo(250, 200);       // Right side
+		pDC->LineTo(100, 200);              // Bottom side
+		pDC->LineTo(100, 100);
+		
 		pDC->LineTo(100, 150);
-		pDC->TextOut(200, 140, L"Mannan");
+		pDC->TextOut(150, 140, L"My Step 2 by Mannan Dhillon");
 		break;
 		
 	case Caption:
