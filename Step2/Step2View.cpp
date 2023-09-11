@@ -117,7 +117,12 @@ void CStep2View::OnDraw(CDC* pDC)
 		pDC->BitBlt(0, 0, 640, 480, &bmpDC, 0, 0, SRCCOPY);
 		pDC->TextOut(200, 140, L"Mannan");
 		break;
-
+	case Clap:
+		bmpDC.CreateCompatibleDC(pDC);
+		bmpDC.SelectObject(&m_auditorium);
+		pDC->BitBlt(0, 0, 640, 480, &bmpDC, 0, 0, SRCCOPY);
+		pDC->TextOut(200, 140, L"Mannan");
+		break;
 
 
 		
@@ -221,10 +226,15 @@ void CStep2View::OnTimer(UINT_PTR nIDEvent)
 		break;
 	case Caption:
 		m_state = Bicycle;
+		nexteventtime = 18000;
+		
+		break;
+	case Bicycle:
+		m_state = Clap;
 		nexteventtime = 28000;
 		PlaySound(MAKEINTRESOURCE(IDR_BICYCLE), AfxGetInstanceHandle(), SND_RESOURCE | SND_ASYNC);
 		break;
-	case Bicycle:
+	case Clap:
 		m_state = Done;
 		
 		break;

@@ -51,7 +51,7 @@ private:
 	
 	
 	CBitmap m_auditorium;
-	enum States { Start, Applause, MyName, Auditorium,Caption,Bicycle, Done };
+	enum States { Start, Applause, MyName, Auditorium,Caption,Bicycle,Clap, Done };
 	States m_state;
 	DWORD m_starttime;
 	
