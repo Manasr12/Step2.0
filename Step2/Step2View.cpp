@@ -29,25 +29,21 @@ BEGIN_MESSAGE_MAP(CStep2View, CView)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CView::OnFilePrintPreview)
 	
-	ON_COMMAND(ID_STEPSTUFF_PLAY, &CStep2View::OnStepstuffPlay)
+	
 	ON_WM_TIMER()
+	ON_COMMAND(ID_RESET_RESE, &CStep2View::OnResetRese)
 END_MESSAGE_MAP()
 
 // CStep2View construction/destruction
 
 CStep2View::CStep2View() noexcept
 {
-	m_splash.LoadBitmap(IDB_SPLASH);
-	m_smith.LoadBitmap(IDB_SMITH);
-	m_chill.LoadBitmap(IDB_CHILL);
+	
 	m_auditorium.LoadBitmap(IDB_AUDITORIUM);
 	BITMAP map;
-	m_splash.GetBitmap(&map);
-	m_smith.GetBitmap(&map);
-	m_chill.GetBitmap(&map);
+
 	m_auditorium.GetBitmap(&map);
-	m_splashwid = map.bmWidth;
-	m_splashhit = map.bmHeight;
+	
 	
 	m_firstdraw = true;
 	m_timer = 0;// TODO: add construction code here
@@ -172,20 +168,6 @@ CStep2Doc* CStep2View::GetDocument() const // non-debug version is inline
 }
 #endif //_DEBUG
 
-
-// CStep2View message handlers
-
-
-void CStep2View::OnPlaysmithPlaysmith()
-{
-	
-}
-
-
-void CStep2View::OnStepstuffPlay()
-{
-	PlaySound(MAKEINTRESOURCE(IDR_HEARTHAT), AfxGetInstanceHandle(), SND_RESOURCE | SND_ASYNC);// TODO: Add your command handler code here
-}
 void CStep2View::OnFirstDraw()
 {
 	m_starttime = timeGetTime();
@@ -263,4 +245,13 @@ void CStep2View::OnTimer(UINT_PTR nIDEvent)
 
 		m_timer = SetTimer(1, tillnext, NULL);
 	}
+}
+
+
+void CStep2View::OnResetRese()
+{
+	m_firstdraw = true;
+	m_timer = 0;
+	m_state = Start;// TODO: Add your command handler code here
+	
 }

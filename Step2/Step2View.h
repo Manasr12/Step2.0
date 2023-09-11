@@ -41,17 +41,15 @@ protected:
 protected:
 	DECLARE_MESSAGE_MAP()
 private:
-	CBitmap m_splash;
-	int m_splashwid;
-	int m_splashhit;
+	
+	
 	UINT_PTR m_timer;
 	bool m_firstdraw;
 	int x1 = 100;   
 	int y1 = 100;   
 	
 	
-	CBitmap m_smith;
-	CBitmap m_chill;
+	
 	CBitmap m_auditorium;
 	enum States { Start, Applause, MyName, Auditorium,Caption,Bicycle, Done };
 	States m_state;
@@ -60,10 +58,10 @@ private:
 	
 public:
 
-	afx_msg void OnPlaysmithPlaysmith();
-	afx_msg void OnStepstuffPlay();
+	
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	void OnFirstDraw();
+	afx_msg void OnResetRese();
 };
 
 #ifndef _DEBUG  // debug version in Step2View.cpp
