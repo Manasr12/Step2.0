@@ -97,9 +97,9 @@ void CStep2View::OnDraw(CDC* pDC)
 		
 		// Draw the square using four lines
 		pDC->MoveTo(x1, y1);
-		pDC->LineTo(250, 100);              // Top side
-		pDC->LineTo(250, 200);       // Right side
-		pDC->LineTo(100, 200);              // Bottom side
+		pDC->LineTo(350, 100);       // Longer top side
+		pDC->LineTo(350, 200);       // Longer right side
+		pDC->LineTo(100, 200);       // Bottom side
 		pDC->LineTo(100, 100);
 		
 		pDC->LineTo(100, 150);
@@ -115,13 +115,13 @@ void CStep2View::OnDraw(CDC* pDC)
 		bmpDC.CreateCompatibleDC(pDC);
 		bmpDC.SelectObject(&m_auditorium);
 		pDC->BitBlt(0, 0, 640, 480, &bmpDC, 0, 0, SRCCOPY);
-		pDC->TextOut(200, 140, L"Mannan");
+		pDC->TextOut(200, 140, L"This is an Auditorium");
 		break;
 	case Clap:
 		bmpDC.CreateCompatibleDC(pDC);
 		bmpDC.SelectObject(&m_auditorium);
 		pDC->BitBlt(0, 0, 640, 480, &bmpDC, 0, 0, SRCCOPY);
-		pDC->TextOut(200, 140, L"Mannan");
+		pDC->TextOut(200, 140, L"This is an Auditorium");
 		break;
 
 
