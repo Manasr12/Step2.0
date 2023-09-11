@@ -209,12 +209,14 @@ void CStep2View::OnTimer(UINT_PTR nIDEvent)
 
 	case Applause:
 		// The Smith state is ending, we are changing to the HearThat state
-		PlaySound(MAKEINTRESOURCE(IDR_APPLAUSE), AfxGetInstanceHandle(), SND_RESOURCE | SND_ASYNC);
+		
 		m_state = MyName;
 
 		// What we do at the end of state Smith, entering state HearThat
 		
 		nexteventtime = 8000;
+		PlaySound(MAKEINTRESOURCE(IDR_APPLAUSE), AfxGetInstanceHandle(), SND_RESOURCE | SND_ASYNC);
+
 		break;
 	case MyName:
 		m_state = Auditorium;
@@ -260,8 +262,11 @@ void CStep2View::OnTimer(UINT_PTR nIDEvent)
 
 void CStep2View::OnResetRese()
 {
+	OnTimer(0);
+
 	m_firstdraw = true;
 	m_timer = 0;
 	m_state = Start;// TODO: Add your command handler code here
+	
 	
 }
